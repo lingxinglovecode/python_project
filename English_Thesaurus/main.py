@@ -1,16 +1,24 @@
-# This is a sample Python script.
 
-# Press ⇧F10 to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+import json
+from difflib import SequenceMatcher
+from difflib import get_close_matches
+def translate_word(word):
+    word = word.lower()
+    data = json.load(open('data.json'))
+
+    if word in data:
+        return data[word]
+    else:
+        similar_words = get_close_matches(word,data)
+        answer = input("Did you mean the word \""+str(similar_words[0])+"\" Yes or no? ")
+        answer = answer.lower()
+        if answer in ['right','yes']:
+            return data[similar_words[0]]
+        return "No defination"
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    word = input("Please enter a word:")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    print(translate_word(word))
+
