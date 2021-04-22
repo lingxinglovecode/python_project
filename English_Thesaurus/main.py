@@ -5,9 +5,27 @@ Enter the word to see its defination.
 import json
 from difflib import SequenceMatcher
 from difflib import get_close_matches
+import mysql.connector
 def translate_word(word):
-    word = word.lower()
-    data = json.load(open('data.json'))
+    # word = word.lower()
+    # data = json.load(open('data.json'))
+
+    import mysql.connector
+    from difflib import get_close_matches
+    con = mysql.connector.connect(
+        user="ardit700_student",
+        password="ardit700_student",
+        host="108.167.140.122",
+        database="ardit700_pm1database"
+    )
+    cursor = con.cursor()
+    # word = input("Please type your word: ")
+    query = cursor.execute("SELECT * FROM Dictionary")
+    results = cursor.fetchall()
+    data = {}
+    for i in range(len(results)):
+        data.update({results[i][0]: results[i][1]})
+
 
     if word.title() in data:
         return optimize_output(data[word.title()])
