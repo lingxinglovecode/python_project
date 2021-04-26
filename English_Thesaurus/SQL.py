@@ -16,6 +16,12 @@ con = mysql.connector.connect(
 
 cursor = con.cursor()
 word = input("Please type your word: ")
+query = cursor.execute("SELECT * FROM Dictionary")
+results = cursor.fetchall()
+dictionary = {}
+for i in range(len(results)):
+    dictionary.update({results[i][0]:results[i][1]})
+
 query = cursor.execute("SELECT * FROM Dictionary WHERE Expression = '%s'"%word)
 results = cursor.fetchall()
 if not results:
@@ -30,7 +36,7 @@ if not results:
         query = cursor.execute("SELECT * FROM Dictionary WHERE Expression = '%s'" % closest_word)
         results = cursor.fetchall()
 if results:
-    for result in results:
-        print(result[1])
+    for i in range(len(results)):
+        print("Defination" + str(i + 1) + ":" + str(results[i][1]))
 else:
     print("Sorry,we didnt find the word.")
